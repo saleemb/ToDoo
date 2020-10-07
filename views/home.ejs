@@ -1,19 +1,22 @@
 <%- include("reusable-layouts/head"); -%>
 
 <div class="td-container">
-  <div class="td-categories">
-    <ul>
-      <li>Home</li>
-      <li>Work</li>
-      <li>Other</li>
-    </ul>
+  <div class="tds-categories">
+
+    <form action="toDosCategory" method="post">
+      <input class="toDosCategoryInput" type="text" name="toDosCategory"></input>
+      <button class="btn toDosCategoryBtn" type="submit" name="submitToDosCategory">+</button>
+    </form>
+
   </div>
 
   <div class="tds">
-    <ul>
-      <li>Code</li>
-      <li>Review CSS Grids</li>
-    </ul>
+
+    <form action="toDos" method="post">
+      <input class="toDoInput" type="text" name="toDo"></input>
+      <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
+    </form>
+
   </div>
 </div>
 
