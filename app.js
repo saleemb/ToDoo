@@ -13,7 +13,7 @@ app.set('view engine', 'ejs'); // setup ejs
 
 /***** Setup mongooose *****/
 const dbName = "todos";
-mongoose.connect("mongodb://localhost/" + dbName, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://localhost/" + dbName, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -26,24 +26,35 @@ db.once('open', function() {
 const todoSchema = new mongoose.Schema({
   category: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   todos: {
-    type: [String],
-    required: true
+    type: [String]
   }
 });
+const ToDo = mongoose.model("ToDo", todoSchema);
 
 
+/***** Setup request handlers ******/
 const port = 3000;
 
 app.get("/", function(req, res){
   res.render("home");
 });
 
+// save category of todos to database
+// (initially will not have any to dos associated with it)
 app.post("/toDosCategory", function(req, res){
-  // console.log(req.body.toDosCategory); // accurately logs
-
+  const toDosCategory = new ToDo({ category: req.body.toDosCategory});
+  toDosCategory.save(function(err, toDosCategory){
+    if (err) {
+      return console.error(err);
+    } else {
+      console.log("Added todos category " + toDosCategory.category + " to the database");
+      res.redirect("/");
+    }
+  });
 });
 
 app.listen(port, function(){
