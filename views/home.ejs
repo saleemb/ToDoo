@@ -2,6 +2,10 @@
 
 <div class="td-container">
   <div class="tds-categories">
+    <% todos.forEach(function(tdc){ %>
+      <p class="td-category"> <%= tdc.category %> </p>
+    <% }); %>
+
 
     <form action="toDosCategory" method="post">
       <input class="toDosCategoryInput" type="text" name="toDosCategory"></input>

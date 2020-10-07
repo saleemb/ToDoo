@@ -40,7 +40,20 @@ const ToDo = mongoose.model("ToDo", todoSchema);
 const port = 3000;
 
 app.get("/", function(req, res){
-  res.render("home");
+  ToDo.find(function(err, todos){
+    if (err) return console.error(err);
+
+    console.log(todos);
+
+    res.render("home", { todos: todos });
+
+    // ejs.renderFile(__dirname + "/views/home", { todos: todos }, function(err, str){
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    // });
+  });
+
 });
 
 // save category of todos to database
