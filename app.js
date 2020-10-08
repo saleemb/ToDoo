@@ -35,6 +35,7 @@ const todoSchema = new mongoose.Schema({
 });
 const ToDo = mongoose.model("ToDo", todoSchema);
 
+const homePageCategory = "All";
 
 /***** Setup request handlers ******/
 const port = 3000;
@@ -42,7 +43,7 @@ const port = 3000;
 app.get("/", function(req, res){
   ToDo.find(function(err, todos){
     if (err) return console.error(err);
-    res.render("home", { todos: todos });
+    res.render("home", { todos: todos, currentCategory: homePageCategory });
   });
 
 });
@@ -59,6 +60,21 @@ app.post("/toDosCategory", function(req, res){
       res.redirect("/");
     }
   });
+});
+
+
+app.get("/:category/toDos", function(req, res){
+  ToDo.find(function(err, todos){
+    if (err) return console.console.error(err);
+    res.render("home", { todos: todos, currentCategory: req.params.category });
+    // res.render("home", { todos: todos, currentCategory: homePageCategory });
+
+  });
+});
+
+// save todo in its appropriate category
+app.post("/:category/toDos", function(req, res){
+  console.log(req.params.category);
 });
 
 app.listen(port, function(){

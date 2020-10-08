@@ -3,11 +3,16 @@
 <div class="td-container">
   <div class="tds-categories">
 
-    <p class="td-category selected-category">All</p>
+    <p class="td-category">All</p>
 
     <!-- Populate todos categories -->
     <% todos.forEach(function(tdc){ %>
-      <p class="td-category"> <%= tdc.category %> </p>
+      <% if (currentCategory !== tdc.category) { %>
+        <p class="td-category"> <a href="/<%=tdc.category%>/toDos"><%= tdc.category %></a></p>
+      <% } else { %>
+        <p class="td-category selected-category"> <a href="/<%=tdc.category%>/toDos"><%= tdc.category %></a></p>
+      <% } %>
+
     <% }); %>
 
     <!-- Add another todos category -->
@@ -20,7 +25,7 @@
 
   <div class="tds">
 
-    <form action="toDos" method="post">
+    <form action="<%=currentCategory%>/toDos" method="post">
       <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
       <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
     </form>
