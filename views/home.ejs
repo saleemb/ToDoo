@@ -2,13 +2,17 @@
 
 <div class="td-container">
   <div class="tds-categories">
+
+    <p class="td-category selected-category">All</p>
+
+    <!-- Populate todos categories -->
     <% todos.forEach(function(tdc){ %>
       <p class="td-category"> <%= tdc.category %> </p>
     <% }); %>
 
-
+    <!-- Add another todos category -->
     <form action="toDosCategory" method="post">
-      <input class="toDosCategoryInput" type="text" name="toDosCategory"></input>
+      <input class="toDosCategoryInput" type="text" name="toDosCategory" autocomplete="off"></input>
       <button class="btn toDosCategoryBtn" type="submit" name="submitToDosCategory">+</button>
     </form>
 
@@ -17,7 +21,7 @@
   <div class="tds">
 
     <form action="toDos" method="post">
-      <input class="toDoInput" type="text" name="toDo"></input>
+      <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
       <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
     </form>
 

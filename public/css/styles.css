@@ -21,9 +21,15 @@ input {
     border-top: none;
     border-right: none;
     border-left: none;
+    border-bottom: dotted;
     border-color: white;
     outline: none;
     color: white;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 footer {
@@ -60,6 +66,18 @@ footer {
   text-align: center;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+
+.td-category {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: white;
+}
+
+.selected-category {
+  font-size: 25px;
+  font-weight: 600;
 }
 
 .toDosCategoryInput {
