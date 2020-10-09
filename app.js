@@ -13,7 +13,7 @@ app.set('view engine', 'ejs'); // setup ejs
 
 /***** Setup mongooose *****/
 const dbName = "todos";
-mongoose.connect("mongodb://localhost/" + dbName, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect("mongodb://localhost/" + dbName, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -30,7 +30,9 @@ const todoSchema = new mongoose.Schema({
     unique: true
   },
   todos: {
-    type: [String]
+    type: [{
+      type: String
+    }]
   }
 });
 const ToDo = mongoose.model("ToDo", todoSchema);
@@ -57,7 +59,7 @@ app.post("/toDosCategory", function(req, res){
       return console.error(err);
     } else {
       console.log("Added todos category " + toDosCategory.category + " to the database");
-      res.redirect("/");
+      res.redirect("/");  // TODO: fix so it goes to saved category instead
     }
   });
 });
@@ -65,16 +67,18 @@ app.post("/toDosCategory", function(req, res){
 
 app.get("/:category/toDos", function(req, res){
   ToDo.find(function(err, todos){
-    if (err) return console.console.error(err);
+    if (err) return console.error(err);
     res.render("home", { todos: todos, currentCategory: req.params.category });
-    // res.render("home", { todos: todos, currentCategory: homePageCategory });
 
   });
 });
 
 // save todo in its appropriate category
-app.post("/:category/toDos", function(req, res){
-  console.log(req.params.category);
+app.post("/:category/toDos", async function(req, res){
+  console.log("Category: " + req.params.category + " Todo: " + req.body.toDo);
+  const doc = await ToDo.findOneAndUpdate( { category: req.params.category },
+                                     { $push: { todos: req.body.toDo } },
+                                     { new: true });
 });
 
 app.listen(port, function(){
