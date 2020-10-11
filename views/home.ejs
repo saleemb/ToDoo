@@ -28,6 +28,16 @@
   </div>
 
   <div class="tds">
+    <!-- Populate todos -->
+    <% todos.forEach(function(tdc){ %>
+      <% if(currentCategory === "All") { %>
+
+      <% } else if (currentCategory === tdc.category) { %>
+        <% tdc.todos.forEach(function(td){ %>
+          <input type="checkbox" name="td" value="<%=td%>"><%=td%></input>
+        <% }); %>
+      <% } %>
+    <% }); %>
 
     <!-- Field to add a todo to a given category -->
     <form action="/<%=currentCategory%>/toDos" method="post">
