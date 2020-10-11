@@ -31,16 +31,18 @@
     <!-- Populate todos -->
     <% todos.forEach(function(tdc){ %>
       <% if(currentCategory === "All") { %>
-
+        <% tdc.todos.forEach(function(td){ %>
+          <input class="toDoCheckbox" id="<%=td%>" type="checkbox" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
+        <% }); %>
       <% } else if (currentCategory === tdc.category) { %>
         <% tdc.todos.forEach(function(td){ %>
-          <input type="checkbox" name="td" value="<%=td%>"><%=td%></input>
+          <input class="toDoCheckbox" id="<%=td%>" type="checkbox" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
         <% }); %>
       <% } %>
     <% }); %>
 
     <!-- Field to add a todo to a given category -->
-    <form action="/<%=currentCategory%>/toDos" method="post">
+    <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
       <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
       <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
     </form>

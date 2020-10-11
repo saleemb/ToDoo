@@ -35,6 +35,11 @@ input {
     font-weight: 400;
 }
 
+/* input[type="checkbox"] {
+  color: white;
+  background-color: red;
+} */
+
 footer {
   text-align: center;
   background-color: #30c767;
@@ -66,7 +71,7 @@ footer {
 
 .tds {
   background-color: #86cdff;
-  text-align: center;
+  /* text-align: center; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -91,6 +96,13 @@ footer {
   padding-bottom: 7px;
 }
 
+.todoText {
+  color: white;
+  font-family: "Open Sans", cursive;
+  /* text-align: left; */
+  margin: 15px;
+}
+
 .toDoInput {
   width: 85%;
   margin-top: 10px;
@@ -106,4 +118,8 @@ footer {
   font-size: 20px;
   font-weight: bolder;
   color: #30c767;
+}
+
+.fieldToAddTodo {
+  text-align: center;
 }
