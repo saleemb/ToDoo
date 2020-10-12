@@ -30,30 +30,47 @@
   <div class="tds">
     <!-- Populate todos -->
     <div class="tds-inner">
-      <form action="/<%=currentCategory%>/toDos/delete" method="post">
+      <!-- <form action="/<%=currentCategory%>/toDos/delete" method="post"> -->
 
         <% todos.forEach(function(tdc){ %>
+
+          <!-- If all the todos was selected -->
           <% if(currentCategory === "All") { %>
-            <input type="hidden" name="tdCategory" value="<%=tdc.category%>">
-            <% tdc.todos.forEach(function(td){ %>
-              <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
-            <% }); %>
+
+            <form action="/<%=tdc.category%>/toDos/delete" method="post">
+              <input type="hidden" name="tabCategory" value="All">
+
+              <% tdc.todos.forEach(function(td){ %>
+                <!-- <input type="hidden" name="tdCategory" value="<%=td.category%>">  -->
+                <!-- This line is getting the todos populated for All category -->
+                <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
+
+              <% }); %>
+            </form>
+
+          <!-- If a specific category of todos was selected -->
           <% } else if (currentCategory === tdc.category) { %>
-            <% tdc.todos.forEach(function(td){ %>
-              <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
-            <% }); %>
+
+            <form action="/<%=currentCategory%>/toDos/delete" method="post">
+              <% tdc.todos.forEach(function(td){ %>
+                <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
+              <% }); %>
+            </form>
+
           <% } %>
         <% }); %>
 
+      <!-- </form> -->
+
+      <!-- Field to add a todo to a given category -->
+      <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
+
+        <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
+        <input type="hidden" name="todoCategory" value="<%=currentCategory%>">
+        <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
+
       </form>
-      <div class="tds-inner-inner">
-        <!-- Field to add a todo to a given category -->
-        <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
-          <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
-          <input type="hidden" name="todoCategory" value="<%=currentCategory%>">
-          <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
-        </form>
-      </div>
+
     </div>
   </div>
 </div>

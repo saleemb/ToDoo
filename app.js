@@ -45,6 +45,7 @@ const port = 3000;
 app.get("/", function(req, res){
   ToDo.find(function(err, todos){
     if (err) return console.error(err);
+    console.log(todos);
     res.render("home", { todos: todos, currentCategory: homePageCategory });
   });
 
@@ -84,8 +85,15 @@ app.post("/:category/toDos", async function(req, res){
 
 app.post("/:category/toDos/delete", function(req, res){
   console.log("Category: " + req.params.category);
-  console.log("tdCategory: " + req.body.tdCategory);
+  console.log("tabCategory: " + req.body.tabCategory);
   console.log("Todo to delete: " + req.body.tdToDelete);
+  // if the page this request was coming from is "/" then redirect there
+  if(req.body.tabCategory === "All"){
+    res.redirect("/");
+  } else { //otherwise redirect back to the page where the request is coming from
+      res.redirect("/" + req.params.category + "/toDos");
+  }
+
 });
 
 app.listen(port, function(){
