@@ -29,24 +29,32 @@
 
   <div class="tds">
     <!-- Populate todos -->
-    <% todos.forEach(function(tdc){ %>
-      <% if(currentCategory === "All") { %>
-        <% tdc.todos.forEach(function(td){ %>
-          <input class="toDoCheckbox" id="<%=td%>" type="checkbox" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
-        <% }); %>
-      <% } else if (currentCategory === tdc.category) { %>
-        <% tdc.todos.forEach(function(td){ %>
-          <input class="toDoCheckbox" id="<%=td%>" type="checkbox" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
-        <% }); %>
-      <% } %>
-    <% }); %>
+    <div class="tds-inner">
+      <form action="/<%=currentCategory%>/toDos/delete" method="post">
 
-    <!-- Field to add a todo to a given category -->
-    <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
-      <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
-      <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
-    </form>
+        <% todos.forEach(function(tdc){ %>
+          <% if(currentCategory === "All") { %>
+            <input type="hidden" name="tdCategory" value="<%=tdc.category%>">
+            <% tdc.todos.forEach(function(td){ %>
+              <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
+            <% }); %>
+          <% } else if (currentCategory === tdc.category) { %>
+            <% tdc.todos.forEach(function(td){ %>
+              <input class="toDoCheckbox" id="<%=td%>" type="checkbox" onChange="this.form.submit()" name="tdToDelete" value="<%=td%>"> </input><label class="todoText" for="<%=td%>"><%=td%></label> <br>
+            <% }); %>
+          <% } %>
+        <% }); %>
 
+      </form>
+      <div class="tds-inner-inner">
+        <!-- Field to add a todo to a given category -->
+        <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
+          <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
+          <input type="hidden" name="todoCategory" value="<%=currentCategory%>">
+          <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

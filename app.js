@@ -79,6 +79,13 @@ app.post("/:category/toDos", async function(req, res){
   const doc = await ToDo.findOneAndUpdate( { category: req.params.category },
                                      { $push: { todos: req.body.toDo } },
                                      { new: true });
+  res.redirect("/" + req.params.category + "/toDos");
+});
+
+app.post("/:category/toDos/delete", function(req, res){
+  console.log("Category: " + req.params.category);
+  console.log("tdCategory: " + req.body.tdCategory);
+  console.log("Todo to delete: " + req.body.tdToDelete);
 });
 
 app.listen(port, function(){
