@@ -63,14 +63,17 @@
       <!-- </form> -->
 
       <!-- Field to add a todo to a given category -->
-      <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
+      <% if (currentCategory !== "All") { %>
 
-        <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
-        <input type="hidden" name="todoCategory" value="<%=currentCategory%>">
-        <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
+        <form class="fieldToAddTodo" action="/<%=currentCategory%>/toDos" method="post">
 
-      </form>
+          <input class="toDoInput" type="text" name="toDo" autocomplete="off"></input>
+          <input type="hidden" name="todoCategory" value="<%=currentCategory%>">
+          <button class="btn toDoBtn" type="submit" name="submitToDo">+</button>
 
+        </form>
+
+      <% } %>
     </div>
   </div>
 </div>
