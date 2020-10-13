@@ -45,7 +45,7 @@ const port = 3000;
 app.get("/", function(req, res){
   ToDo.find(function(err, todos){
     if (err) return console.error(err);
-    console.log(todos);
+    // console.log(todos);
     res.render("home", { todos: todos, currentCategory: homePageCategory });
   });
 
@@ -59,13 +59,14 @@ app.post("/toDosCategory", function(req, res){
     if (err) {
       return console.error(err);
     } else {
-      console.log("Added todos category " + toDosCategory.category + " to the database");
+      // console.log("Added todos category " + toDosCategory.category + " to the database");
       res.redirect("/");  // TODO: fix so it goes to saved category instead
     }
   });
 });
 
 
+// get todos of a given category
 app.get("/:category/toDos", function(req, res){
   ToDo.find(function(err, todos){
     if (err) return console.error(err);
@@ -76,19 +77,28 @@ app.get("/:category/toDos", function(req, res){
 
 // save todo in its appropriate category
 app.post("/:category/toDos", async function(req, res){
-  console.log("Category: " + req.params.category + " Todo: " + req.body.toDo);
+  // console.log("Category: " + req.params.category + " Todo: " + req.body.toDo);
   const doc = await ToDo.findOneAndUpdate( { category: req.params.category },
                                      { $push: { todos: req.body.toDo } },
                                      { new: true });
   res.redirect("/" + req.params.category + "/toDos");
 });
 
-app.post("/:category/toDos/delete", function(req, res){
-  console.log("Category: " + req.params.category);
-  console.log("tabCategory: " + req.body.tabCategory);
-  console.log("Todo to delete: " + req.body.tdToDelete);
+// delete todo of a given category
+app.post("/:category/toDos/delete", async function(req, res){
+  // console.log("Category: " + req.params.category); // actual category the todo is from (use this to delete)
+  // console.log("tabCategory: " + req.body.tabCategory); // the tab to go to after deleting
+  // console.log("Todo to delete: " + req.body.tdToDelete); // the todo text
+  const doc = await ToDo.findOne({ category: req.params.category });
+  console.log(doc);
+
+  doc.todos = doc.todos.filter(e => e !== req.body.tdToDelete);
+
+  const updated = await doc.save();
+  console.log(updated);
+
   // if the page this request was coming from is "/" then redirect there
-  if(req.body.tabCategory === "All"){
+  if(req.body.tabCategory === homePageCategory){
     res.redirect("/");
   } else { //otherwise redirect back to the page where the request is coming from
       res.redirect("/" + req.params.category + "/toDos");
